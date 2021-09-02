@@ -1,10 +1,10 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: q-app-git
+  name: simple-app-git
   namespace: demo3
   labels:
-    app.kubernetes.io/instance: q-app-git
+    app.kubernetes.io/instance: simple-app-git
     pipeline.openshift.io/runtime: java
     pipeline.openshift.io/type: kubernetes
 spec:
@@ -12,7 +12,7 @@ spec:
     - default: q-app-git
       name: APP_NAME
       type: string
-    - default: 'https://github.com/helo/q-app.git'
+    - default: 'https://github.com/michael-bang/simple-springbootapp.git'
       name: GIT_REPO
       type: string
     - default: main
