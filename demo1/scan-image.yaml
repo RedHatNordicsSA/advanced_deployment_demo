@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: scan-image
+  namespace: demo1
+spec:
+  steps:
+    - command:
+        - /bin/bash
+        - '-c'
+        - sleep 3
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: ''
+      resources: {}

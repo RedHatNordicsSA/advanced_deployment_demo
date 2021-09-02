@@ -73,33 +73,17 @@ spec:
         kind: ClusterTask
         name: openshift-client
     - name: custom-image-scan
-      params:
-        - name: rox_central_endpoint
-          value: roxsecrets
-        - name: rox_api_token
-          value: roxsecrets
-        - name: image
-          value: $(params.image)
-        - name: output_format
-          value: json
       runAfter:
         - build
       taskRef:
-        kind: ClusterTask
-        name: custom-image-scan
+        kind: Task
+        name: scan-image
     - name: custom-image-check
-      params:
-        - name: rox_central_endpoint
-          value: roxsecrets
-        - name: rox_api_token
-          value: roxsecrets
-        - name: image
-          value: $(params.image)
       runAfter:
         - custom-image-scan
       taskRef:
-        kind: ClusterTask
-        name: custom-image-check
+        kind: Task
+        name: scan-image
     - name: code-quality-analysis
       runAfter:
         - fetch-repository
