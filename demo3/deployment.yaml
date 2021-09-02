@@ -1,26 +1,26 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: simple-springbootapp-git-v1
+  name: simple-app-git-v1
   namespace: demo3
   labels:
-    app: simple-springbootapp-git-v1
+    app: simple-app-git-v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: simple-springbootapp-git-v1
+      app: simple-app-git-v1
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: simple-springbootapp-git-v1
-        deploymentconfig: simple-springbootapp-git-v1
+        app: simple-app-git-v1
+        deploymentconfig: simple-app-git-v1
     spec:
       containers:
-        - name: simple-springbootapp-git
+        - name: simple-app-git
           image: >-
-            image-registry.openshift-image-registry.svc:5000/mbatest/simple-springbootapp-git:v1
+            image-registry.openshift-image-registry.svc:5000/mbatest/simple-app-git:v1
           ports:
             - containerPort: 8080
               protocol: TCP
