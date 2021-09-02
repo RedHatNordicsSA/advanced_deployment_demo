@@ -50,6 +50,8 @@ spec:
           value: $(params.PATH_CONTEXT)
         - name: MAVEN_CLEAR_REPO
           value: 'false'
+        - name: MAVEN_ARGS_APPEND
+          value: spring-boot:run
       runAfter:
         - fetch-repository
       taskRef:
