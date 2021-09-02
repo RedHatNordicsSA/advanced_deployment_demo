@@ -51,7 +51,7 @@ spec:
         - name: MAVEN_CLEAR_REPO
           value: 'false'
         - name: MAVEN_ARGS_APPEND
-          value: spring-boot:run
+          value: clean install
       runAfter:
         - fetch-repository
       taskRef:
