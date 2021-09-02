@@ -4,11 +4,11 @@ metadata:
   name: simple-springbootapp-git-v1
   namespace: demo3
   labels:
-    app: simple-springbootapp-git-v1
+    app: simple-app-git-v1
 spec:
   to:
     kind: Service
-    name: simple-springbootapp-git-v1
+    name: simple-app-git-v1
     weight: 100
   port:
     targetPort: 8080-tcp
