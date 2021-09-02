@@ -9,7 +9,7 @@ metadata:
     pipeline.openshift.io/type: kubernetes
 spec:
   params:
-    - default: q-app-git
+    - default: simple-app-git
       name: APP_NAME
       type: string
     - default: 'https://github.com/michael-bang/simple-springbootapp.git'
@@ -22,7 +22,7 @@ spec:
       name: PATH_CONTEXT
       type: string
     - default: >-
-        image-registry.openshift-image-registry.svc:5000/demo1/q-app-git:CHANGEME
+        image-registry.openshift-image-registry.svc:5000/demo3/simple-app-git:CHANGEME
       name: image
       type: string
   tasks:
