@@ -9,7 +9,7 @@ metadata:
     pipeline.openshift.io/type: kubernetes
 spec:
   params:
-    - default: simple-app-git
+    - default: simple-app-git-v1
       name: APP_NAME
       type: string
     - default: 'https://github.com/michael-bang/simple-springbootapp.git'
