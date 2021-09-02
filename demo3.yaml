@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo3
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: demo3
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: demo3
+    repoURL: https://github.com/RedHatNordicsSA/advanced_deployment_demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

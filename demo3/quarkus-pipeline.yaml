@@ -1,0 +1,108 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: q-app-git
+  namespace: demo3
+  labels:
+    app.kubernetes.io/instance: q-app-git
+    pipeline.openshift.io/runtime: java
+    pipeline.openshift.io/type: kubernetes
+spec:
+  params:
+    - default: q-app-git
+      name: APP_NAME
+      type: string
+    - default: 'https://github.com/helo/q-app.git'
+      name: GIT_REPO
+      type: string
+    - default: main
+      name: GIT_REVISION
+      type: string
+    - default: .
+      name: PATH_CONTEXT
+      type: string
+    - default: >-
+        image-registry.openshift-image-registry.svc:5000/demo1/q-app-git:CHANGEME
+      name: image
+      type: string
+  tasks:
+    - name: fetch-repository
+      params:
+        - name: url
+          value: $(params.GIT_REPO)
+        - name: revision
+          value: $(params.GIT_REVISION)
+        - name: deleteExisting
+          value: 'true'
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: build
+      params:
+        - name: IMAGE
+          value: $(params.image)
+        - name: TLSVERIFY
+          value: 'false'
+        - name: PATH_CONTEXT
+          value: $(params.PATH_CONTEXT)
+        - name: MAVEN_CLEAR_REPO
+          value: 'false'
+      runAfter:
+        - fetch-repository
+      taskRef:
+        kind: ClusterTask
+        name: s2i-java-11
+      workspaces:
+        - name: source
+          workspace: workspace
+    - name: deploy
+      params:
+        - name: SCRIPT
+          value: kubectl $@
+        - name: ARGS
+          value:
+            - rollout
+            - status
+            - deploy/$(params.APP_NAME)
+      runAfter:
+        - sign-image
+      taskRef:
+        kind: ClusterTask
+        name: openshift-client
+    - name: custom-image-scan
+      runAfter:
+        - build
+      taskRef:
+        kind: Task
+        name: scan-image
+    - name: custom-image-check
+      runAfter:
+        - custom-image-scan
+      taskRef:
+        kind: Task
+        name: scan-image
+    - name: code-quality-analysis
+      runAfter:
+        - fetch-repository
+      taskRef:
+        kind: Task
+        name: code-quality-analysis
+    - name: integration-test
+      runAfter:
+        - fetch-repository
+      taskRef:
+        kind: Task
+        name: integration-test
+    - name: sign-image
+      runAfter:
+        - custom-image-check
+        - code-quality-analysis
+        - integration-test
+      taskRef:
+        kind: Task
+        name: sign-image
+  workspaces:
+    - name: workspace

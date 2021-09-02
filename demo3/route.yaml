@@ -1,0 +1,15 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: simple-springbootapp-git-v1
+  namespace: demo3
+  labels:
+    app: simple-springbootapp-git-v1
+spec:
+  to:
+    kind: Service
+    name: simple-springbootapp-git-v1
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None

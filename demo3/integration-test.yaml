@@ -1,14 +1,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: code-quality-analysis
+  name: integration-test
   namespace: demo3
 spec:
   steps:
     - command:
         - /bin/bash
         - '-c'
-        - sleep 15
+        - sleep 18
       image: registry.redhat.io/ubi7/ubi-minimal
-      name: ''
+      name: maven-integration-tests
       resources: {}
