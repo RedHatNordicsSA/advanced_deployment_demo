@@ -1,0 +1,123 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-java
+spec:
+  params:
+    - default: .
+      description: The location of the path to run s2i from
+      name: PATH_CONTEXT
+      type: string
+    - default: 'true'
+      description: >-
+        Verify the TLS on the registry endpoint (for push/pull to a non-TLS
+        registry)
+      name: TLSVERIFY
+      type: string
+    - default: ''
+      description: Additional Maven arguments
+      name: MAVEN_ARGS_APPEND
+      type: string
+    - default: 'false'
+      description: Remove the Maven repository after the artifact is built
+      name: MAVEN_CLEAR_REPO
+      type: string
+    - default: ''
+      description: The base URL of a mirror used for retrieving artifacts
+      name: MAVEN_MIRROR_URL
+      type: string
+    - description: Location of the repo where image has to be pushed
+      name: IMAGE
+      type: string
+  steps:
+    - args:
+        - |-
+          echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
+
+          [[ '$(params.MAVEN_ARGS_APPEND)' != "" ]] &&
+            echo "MAVEN_ARGS_APPEND=$(params.MAVEN_ARGS_APPEND)" >> env-file
+
+          [[ '$(params.MAVEN_MIRROR_URL)' != "" ]] &&
+            echo "MAVEN_MIRROR_URL=$(params.MAVEN_MIRROR_URL)" >> env-file
+
+          echo "Generated Env file"
+          echo "------------------------------"
+          cat env-file
+          echo "------------------------------"
+      command:
+        - /bin/sh
+        - '-c'
+      image: >-
+        registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:9c761a0a0bb607913fbc04d3d435c70a6f90900583b52bd0e6a6187dad3f90cb
+      name: gen-env-file
+      resources: {}
+      volumeMounts:
+        - mountPath: /env-params
+          name: envparams
+      workingDir: /env-params
+    - command:
+        - s2i
+        - build
+        - $(params.PATH_CONTEXT)
+        - 'image-registry.openshift-image-registry.svc:5000/openshift/ubi8-openjdk-11:1.3'
+        - '--image-scripts-url'
+        - 'image:///usr/local/s2i'
+        - '--as-dockerfile'
+        - /gen-source/Dockerfile.gen
+        - '--environment-file'
+        - /env-params/env-file
+      image: >-
+        registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:9c761a0a0bb607913fbc04d3d435c70a6f90900583b52bd0e6a6187dad3f90cb
+      name: generate
+      resources: {}
+      volumeMounts:
+        - mountPath: /gen-source
+          name: gen-source
+        - mountPath: /env-params
+          name: envparams
+      workingDir: $(workspaces.source.path)
+    - command:
+        - buildah
+        - bud
+        - '--storage-driver=vfs'
+        - '--tls-verify=$(params.TLSVERIFY)'
+        - '--layers'
+        - '-f'
+        - /gen-source/Dockerfile.gen
+        - '-t'
+        - $(params.IMAGE)
+        - .
+      image: >-
+        registry.redhat.io/rhel8/buildah@sha256:785f0d039113ba978c4ee467f0554de7b72411b5c555a16abe60062759799497
+      name: build
+      resources: {}
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+        - mountPath: /gen-source
+          name: gen-source
+      workingDir: /gen-source
+    - command:
+        - buildah
+        - push
+        - '--storage-driver=vfs'
+        - '--tls-verify=$(params.TLSVERIFY)'
+        - $(params.IMAGE)
+        - 'docker://$(params.IMAGE)'
+      image: >-
+        registry.redhat.io/rhel8/buildah@sha256:785f0d039113ba978c4ee467f0554de7b72411b5c555a16abe60062759799497
+      name: push
+      resources: {}
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+  volumes:
+    - emptyDir: {}
+      name: varlibcontainers
+    - emptyDir: {}
+      name: gen-source
+    - emptyDir: {}
+      name: envparams
+  workspaces:
+    - mountPath: /workspace/source
+      name: source

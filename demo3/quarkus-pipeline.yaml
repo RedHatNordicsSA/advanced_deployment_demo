@@ -55,8 +55,8 @@ spec:
       runAfter:
         - fetch-repository
       taskRef:
-        kind: ClusterTask
-        name: s2i-java-11
+        kind: Task
+        name: build-java
       workspaces:
         - name: source
           workspace: workspace
