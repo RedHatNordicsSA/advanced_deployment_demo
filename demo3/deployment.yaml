@@ -6,7 +6,7 @@ metadata:
   labels:
     app: simple-app-git-v1
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: simple-app-git-v1
