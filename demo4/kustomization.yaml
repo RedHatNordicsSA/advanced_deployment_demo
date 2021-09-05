@@ -1,4 +1,4 @@
 namespace: demo4
 resources:
-- /application/base
-- /infrastructure/baseline
+- ../application/base
+- ../infrastructure/baseline
