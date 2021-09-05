@@ -1,0 +1,6 @@
+namespace: demo4
+resources:
+- buildconfig.yaml
+- deployment.yaml
+- route.yaml
+- service.yaml

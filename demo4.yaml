@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: infrastructure/baseline
+    path: demo4
     repoURL: https://github.com/RedHatNordicsSA/advanced_deployment_demo
   syncPolicy:
     automated:
