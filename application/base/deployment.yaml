@@ -1,13 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    alpha.image.policy.openshift.io/resolve-names: '*'
-    app.openshift.io/vcs-ref: 2.3.4-2-redhat
-    app.openshift.io/vcs-uri: https://github.com/snowdrop/rest-http-example
-    deployment.kubernetes.io/revision: "2"
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"rest-http-example:latest","namespace":"bec-test"},"fieldPath":"spec.template.spec.containers[?(@.name==\"rest-http-example\")].image","pause":"false"}]'
-    openshift.io/generated-by: OpenShiftWebConsole
   labels:
     app: rest-http-example
     app.kubernetes.io/component: rest-http-example
@@ -38,7 +31,7 @@ spec:
         deploymentconfig: rest-http-example
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/demo4/rest-http-example@sha256:9256f71decd0356ebaa513ebb2994b2328315fb451c6969d1a4464b80da2b6bd
+      - image: image-registry.openshift-image-registry.svc:5000/demo4/rest-http-example
         imagePullPolicy: Always
         name: rest-http-example
         ports:
