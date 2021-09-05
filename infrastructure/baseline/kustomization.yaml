@@ -1,3 +1,0 @@
-namespace: demo4
-resources:
-- network-policy.yaml
