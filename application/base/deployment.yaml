@@ -38,7 +38,7 @@ spec:
         deploymentconfig: rest-http-example
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/bec-test/rest-http-example@sha256:9256f71decd0356ebaa513ebb2994b2328315fb451c6969d1a4464b80da2b6bd
+      - image: image-registry.openshift-image-registry.svc:5000/demo4/rest-http-example@sha256:9256f71decd0356ebaa513ebb2994b2328315fb451c6969d1a4464b80da2b6bd
         imagePullPolicy: Always
         name: rest-http-example
         ports:
