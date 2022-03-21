@@ -14,7 +14,7 @@ metadata:
   name: rest-http-example
   namespace: demo4
 spec:
-  host: rest-http-example-demo4.apps.cluster-xgjsj.xgjsj.sandbox977.opentlc.com
+  #host: rest-http-example-demo4.apps.cluster-xgjsj.xgjsj.sandbox977.opentlc.com
   port:
     targetPort: 8080-tcp
   to:
