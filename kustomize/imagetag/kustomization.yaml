@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../application/base
+- https://github.com/michael-bang/infrastructure.git/infrastructure/baseline
+namePrefix: prod-
+namespace: production
+commonLabels:
+  environment: production
+  sre-team: blue
+images:
+- name: image-registry.openshift-image-registry.svc:5000/demo4/rest-http-example
+  # newName: my-test
+  newTag: 1.0.1
+replicas:
+- name: rest-http-example
+  count: 5

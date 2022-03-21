@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: mbatest5
+resources:
+- ../../application/base
+- https://github.com/michael-bang/infrastructure.git/infrastructure/baseline
