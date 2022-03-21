@@ -24,3 +24,11 @@ patchesJson6902:
     - op: replace
       path: /spec/output/to/name
       value: "prod-rest-http-example:1.0.1"
+- target:
+    version: v1
+    kind: Route
+    name: prod-rest-http-example
+  patch: |-
+    - op: replace
+      path: /spec/to/name
+      value: "prod-rest-http-example"
