@@ -10,7 +10,7 @@ commonLabels:
   sre-team: blue
 images:
 - name: image-registry.openshift-image-registry.svc:5000/demo4/rest-http-example
-  # newName: my-test
+  newName: image-registry.openshift-image-registry.svc:5000/production/prod-rest-http-example
   newTag: 1.0.1
 replicas:
 - name: rest-http-example
