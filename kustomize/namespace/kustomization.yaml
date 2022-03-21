@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: mbatest5
 resources:
 - ../../application/base
-- https://github.com/michael-bang/infrastructure.git/infrastructure/baseline
+#- https://github.com/michael-bang/infrastructure.git/infrastructure/baseline
