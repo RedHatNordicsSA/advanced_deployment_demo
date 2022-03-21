@@ -15,3 +15,12 @@ images:
 replicas:
 - name: rest-http-example
   count: 5
+patchesJson6902:
+- target:
+    version: v1
+    kind: BuildConfig
+    name: prod-rest-http-example
+  patch: |-
+    - op: replace
+      path: /spec/output/to/name
+      value: "prod-rest-http-example:latest"    
