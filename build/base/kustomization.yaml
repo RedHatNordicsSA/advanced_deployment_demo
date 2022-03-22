@@ -1,0 +1,4 @@
+namespace: demo4
+resources:
+- buildconfig.yaml
+- is.yaml

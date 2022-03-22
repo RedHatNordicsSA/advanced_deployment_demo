@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: kustomize/namespace
+    path: overlay/namespace
     repoURL: https://github.com/RedHatNordicsSA/advanced_deployment_demo
   syncPolicy:
     automated:

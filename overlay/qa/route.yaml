@@ -1,0 +1,10 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: rest-http-example
+  namespace: demo4
+spec:
+  to:
+    kind: Service
+    name: qa-rest-http-example
+    weight: 100

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: 2.3.4-2-redhat
+    app.openshift.io/vcs-uri: https://github.com/snowdrop/rest-http-example
+    openshift.io/generated-by: OpenShiftWebConsole
+  labels:
+    app: rest-http-example
+    app.kubernetes.io/component: rest-http-example
+    app.kubernetes.io/instance: rest-http-example
+    app.kubernetes.io/name: java
+    app.kubernetes.io/part-of: rest-http-example-app
+    app.openshift.io/runtime: java
+    app.openshift.io/runtime-version: openjdk-11-ubi8
+  name: rest-http-example
+  namespace: demo4
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: 8443-tcp
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  - name: 8778-tcp
+    port: 8778
+    protocol: TCP
+    targetPort: 8778
+  selector:
+    app: rest-http-example
+    deploymentconfig: rest-http-example
+  sessionAffinity: None
+  type: ClusterIP

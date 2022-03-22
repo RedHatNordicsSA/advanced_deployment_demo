@@ -5,11 +5,11 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: production
+    namespace: qa
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: overlay/imagetag
+    path: overlay/dev
     repoURL: https://github.com/RedHatNordicsSA/advanced_deployment_demo
   syncPolicy:
     automated:
