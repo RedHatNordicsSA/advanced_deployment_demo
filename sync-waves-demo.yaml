@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo4
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: sync-waves-demo
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: syncwaves/application/overlays
+    repoURL: https://github.com/RedHatNordicsSA/advanced_deployment_demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true

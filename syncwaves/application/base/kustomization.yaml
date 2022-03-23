@@ -1,0 +1,7 @@
+namespace: sync-waves-demo
+resources:
+- buildconfig.yaml
+- deployment.yaml
+- route.yaml
+- service.yaml
+- is.yaml

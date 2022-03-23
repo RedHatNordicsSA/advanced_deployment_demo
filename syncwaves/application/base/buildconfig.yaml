@@ -1,0 +1,55 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: 2.3.4-2-redhat
+    app.openshift.io/vcs-uri: https://github.com/snowdrop/rest-http-example
+    openshift.io/generated-by: OpenShiftWebConsole
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    app: rest-http-example
+    app.kubernetes.io/component: rest-http-example
+    app.kubernetes.io/instance: rest-http-example
+    app.kubernetes.io/name: java
+    app.kubernetes.io/part-of: rest-http-example-app
+    app.openshift.io/runtime: java
+    app.openshift.io/runtime-version: openjdk-11-ubi8
+  name: rest-http-example
+  namespace: demo4
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: rest-http-example:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: /
+    git:
+      ref: 2.3.4-2-redhat
+      uri: https://github.com/snowdrop/rest-http-example
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: java:openjdk-11-ubi8
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - generic:
+      secretReference:
+        name: rest-http-example-generic-webhook-secret
+    type: Generic
+  - github:
+      secretReference:
+        name: rest-http-example-github-webhook-secret
+    type: GitHub
+  - imageChange:
+      lastTriggeredImageID: image-registry.openshift-image-registry.svc:5000/openshift/java@sha256:76d357448c817d62aee4dcbbec20ac4c64211448158f0256b4d7b05a6646f706
+    type: ImageChange
+  - type: ConfigChange
