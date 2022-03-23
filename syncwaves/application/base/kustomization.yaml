@@ -5,3 +5,4 @@ resources:
 - route.yaml
 - service.yaml
 - is.yaml
+- post-job.yaml

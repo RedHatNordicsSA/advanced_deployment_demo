@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: post-sync-job-
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: post-job
+        image: ubi8-minimal
+        command: ["curl",  "https://www.redhat.com"]
+      restartPolicy: Never
+  backoffLimit: 4
