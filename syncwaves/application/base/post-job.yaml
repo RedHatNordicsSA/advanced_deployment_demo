@@ -6,11 +6,14 @@ metadata:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
+  backoffLimit: 4
   template:
+    metadata:
+      name: post-sync-job
     spec:
       containers:
       - name: post-job
         image: ubi8-minimal
         command: ["curl",  "https://www.redhat.com"]
       restartPolicy: Never
-  backoffLimit: 4
+  
