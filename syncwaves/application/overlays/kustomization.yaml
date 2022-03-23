@@ -4,3 +4,7 @@ namespace: sync-waves-demo
 resources:
 - ../base
 #- https://github.com/michael-bang/infrastructure.git/infrastructure/baseline
+images:
+- name: image-registry.openshift-image-registry.svc:5000/demo4/rest-http-example
+  newName: image-registry.openshift-image-registry.svc:5000/sync-waves-demo/dev-rest-http-example
+  newTag: latest
