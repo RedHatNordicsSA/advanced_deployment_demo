@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nexus
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: nexus
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: sonatype-nexus
+    repoURL: https://redhat-cop.github.io/sonatype-nexus
+    targetRevision: 1.1.10
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
