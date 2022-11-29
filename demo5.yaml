@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     chart: sonatype-nexus
-    repoURL: https://redhat-cop.github.io/sonatype-nexus
+    repoURL: https://redhat-cop.github.io/helm-charts
     targetRevision: 1.1.10
   syncPolicy:
     automated:
